@@ -7,7 +7,7 @@ def check_answers(verb_forms):
         user_input = input(f"Введите {form} для глагола '{verb_forms[0]}': ").strip()
         if user_input.lower() == verb_forms[i + 1].lower():
             print("Верно!")
-        else:
+        else:#1
             attempts -= 1
             print(f"Неверно. Осталось попыток: {attempts}")
             if attempts == 0:
