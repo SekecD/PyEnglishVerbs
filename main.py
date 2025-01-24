@@ -1,4 +1,5 @@
 import random
+import time
 from dictionary import verbs
 
 def check_answers(verb_forms):
@@ -38,17 +39,31 @@ def mode_3():
     random.shuffle(random_verbs)
     correct_count = 0
     incorrect_count = 0
-    for verb in random_verbs:
+    start_time = time.time()
+    words_processed = 0
+
+    for i, verb in enumerate(random_verbs):
         print(f"Слово: - '{verb[3]}'.")
         user_input = input("Введите три формы глагола через пробел: ").strip().split()
-        if len(user_input) == 3 and all(user_input[i].lower() == verb[i].lower() for i in range(3)):
+        if len(user_input) == 3 and all(user_input[j].lower() == verb[j].lower() for j in range(3)):
             print("+")
             correct_count += 1
         else:
             print(f"Неверно. Правильные формы: {verb[:3]} ({verb[3]})")
             incorrect_count += 1
-    print(f"Конец. Верных ответов: {correct_count}, неверных ответов: {incorrect_count}.")
+        words_processed += 1
 
+        if words_processed % 10 == 0:
+            elapsed_time = time.time() - start_time
+            minutes, seconds = divmod(elapsed_time, 60)
+            print(f"Вы прошли 10 слов за {int(minutes)} минут(ы) и {int(seconds)} секунд(ы).")
+
+            with open("game_results.txt", "a") as file:
+                file.write(f"10 слов пройдено за {int(minutes)} минут(ы) и {int(seconds)} секунд(ы).\n")
+
+            start_time = time.time()
+
+    print(f"Конец. Верных ответов: {correct_count}, неверных ответов: {incorrect_count}.")
 if __name__ == "__main__":
     while True:
         print("Выберите режим игры:")
